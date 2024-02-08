@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap"
+        rel="stylesheet"
+    />
+    <title>Calculator</title>
+</head>
+<body>
+<div class="wrapper">
+    <div id="toggle">Toggle color scheme</div>
+
+    <div class="calculator">
+        <div class="calc_header">
+            <div class="header_top">
+                <div class="control_button red"></div>
+                <div class="control_button yellow"></div>
+                <div class="control_button green"></div>
+            </div>
+            <div class="display" id="display">0</div>
+        </div>
+
+        <div class="calc_body">
+            <div class="calc_column">
+                <div class="calc_row">
+                    <div class="button dark action" data-key="AC">AC</div>
+                    <div class="button dark action" data-key="+/-">+/-</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="7">7</div>
+                    <div class="button number" data-key="8">8</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="4">4</div>
+                    <div class="button number" data-key="5">5</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="1">1</div>
+                    <div class="button number" data-key="2">2</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number wide" data-key="0">0</div>
+                </div>
+            </div>
+            <div class="calc_column">
+                <div class="calc_row">
+                    <div class="button dark action" data-key="%">%</div>
+                    <div class="button orange operator" data-key="÷">÷</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="9">9</div>
+                    <div class="button orange operator" data-key="×">×</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="6">6</div>
+                    <div class="button orange operator" data-key="-">-</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button number" data-key="3">3</div>
+                    <div class="button orange operator" data-key="+">+</div>
+                </div>
+                <div class="calc_row">
+                    <div class="button action" data-key=",">,</div>
+                    <div class="button orange operator" data-key="=">=</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
