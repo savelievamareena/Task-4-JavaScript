@@ -36,7 +36,7 @@ body {
 }
 
 .calculator {
-    width: 22rem;
+    width: 55rem;
     border: 1px solid #000000;
     border-radius: 20px;
     box-shadow: 0 20px 40px var(--outer-shadow);
@@ -165,12 +165,13 @@ body {
     border: 1px solid #000000;
 }
 
-@media only screen and (max-width: 330px) {
+@media only screen and (max-width: 900px) {
     .calculator {
         width: 90%;
+        font-size: 4vh;
     }
 
     .calc_body .button {
-        font-size: 8vw;
+        font-size: 4vw;
     }
 }
