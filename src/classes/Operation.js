@@ -18,7 +18,7 @@ export default class Operation extends Command {
     }
 
     execute(operation, ...args) {
-        const parsedArgs = args.map(arg => parseInt(arg, 10));
+        const parsedArgs = args.map(arg => parseFloat(arg));
         return this[operation](...parsedArgs);
     }
 }
