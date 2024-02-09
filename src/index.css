@@ -131,7 +131,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 4vh;
+    font-size: 2rem;
     background-color: var(--button-reg-bg);
     cursor: pointer;
     width: 50%;
@@ -165,13 +165,19 @@ body {
     border: 1px solid #000000;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1000px) {
     .calculator {
         width: 90%;
-        font-size: 4vh;
     }
 
     .calc_body .button {
-        font-size: 4vw;
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    .calc_body .button {
+        font-size: 1rem;
     }
 }
