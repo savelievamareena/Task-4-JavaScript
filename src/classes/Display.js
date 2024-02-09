@@ -5,7 +5,11 @@ export default class Display {
     }
 
     show(value) {
-        this.domNode.textContent = value;
+        let stringValue = value.toString();
+        if(stringValue.length > 10) {
+            stringValue = stringValue.substring(0, 11);
+        }
+        this.domNode.textContent = stringValue.replace('.', ',');
     }
 
     reset() {
