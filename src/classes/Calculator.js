@@ -1,6 +1,7 @@
 import Operation from "./Operation";
 import Display from "./Display";
 import Memento from "./Memento";
+import Action from "./Action";
 
 export default class Calculator {
     operationsMap = {
@@ -12,7 +13,14 @@ export default class Calculator {
     };
 
     actionsMap = {
-        "AC": "allClear"
+        "AC": "allClear",
+        "+/-": "signChange",
+        "%": "percent",
+        "2rad": "root2",
+        "3rad": "root3",
+        "x!": "factorial",
+        "x2": "exponentiation2",
+        "x3": "exponentiation3"
     }
 
     constructor() {
@@ -25,6 +33,7 @@ export default class Calculator {
 
     display = new Display();
     operation = new Operation();
+    action = new Action();
 
     processNumberClick(number) {
         if(this.isNewValue) {
@@ -68,12 +77,20 @@ export default class Calculator {
 
     processAction(action) {
         const actionTitle = this.actionsMap[action];
-        if(actionTitle !== undefined) {
-            let result = this.operation.execute(history);
 
+        if(actionTitle !== undefined) {
+            let result = this.action.execute(actionTitle, this.history[this.history.length - 1]);
             this.display.show(result);
+
+            if(actionTitle === "signChange" || actionTitle === "percent") {
+                this.history[this.history.length - 1] = result;
+            }else {
+                this.history = [];
+            }
+
+            this.isNewValue = true;
         }else {
-            console.log("Operation does not exist");
+            console.log("Action does not exist");
         }
     }
 
