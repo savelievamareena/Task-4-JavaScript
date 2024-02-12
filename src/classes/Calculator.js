@@ -56,12 +56,11 @@ export default class Calculator {
         const operationTitle = this.operationsMap[operator];
 
         if(operationTitle !== undefined) {
-            if(this.pendingOperation === undefined && operationTitle !== "result") {
+            if(this.pendingOperation === undefined || operationTitle !== "result") {
                 this.pendingOperation = operationTitle;
             }else {
                 if(this.history.length === 2) {
                     let result = this.operation.execute(this.pendingOperation, this.history[0], this.history[1]);
-                    this.history = [result];
                     this.display.show(result);
 
                     if(operationTitle !== "result") {

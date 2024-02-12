@@ -50,7 +50,7 @@ export default class Action extends Command {
     }
 
     execute(operation, number = "") {
-        let num = parseInt(number, 10);
+        let num = parseFloat(number);
         return this[operation](num);
     }
 }

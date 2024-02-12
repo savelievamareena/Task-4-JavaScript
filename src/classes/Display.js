@@ -6,8 +6,8 @@ export default class Display {
 
     show(value) {
         let stringValue = value.toString();
-        if(stringValue.length > 10) {
-            stringValue = stringValue.substring(0, 11);
+        if(stringValue.length > 12) {
+            stringValue = stringValue.substring(0, 12);
         }
         this.domNode.textContent = stringValue.replace('.', ',');
     }
