@@ -16,4 +16,8 @@ export default class Display {
     activateMemoryIndicator() {
         this.memory.textContent = "M";
     }
+
+    deactivateMemoryIndicator() {
+        this.memory.textContent = "";
+    }
 }
