@@ -9,7 +9,9 @@ export default class Calculator {
         "-": "subtract",
         "x": "multiply",
         "/": "divide",
-        "=": "result"
+        "=": "result",
+        "yrad": "rootY",
+        "xy": "exponentiationY"
     };
 
     actionsMap = {
@@ -20,7 +22,9 @@ export default class Calculator {
         "3rad": "root3",
         "x!": "factorial",
         "x2": "exponentiation2",
-        "x3": "exponentiation3"
+        "x3": "exponentiation3",
+        "10x": "tenPower",
+        "1/x": "oneDivided"
     }
 
     constructor() {
@@ -52,12 +56,11 @@ export default class Calculator {
         const operationTitle = this.operationsMap[operator];
 
         if(operationTitle !== undefined) {
-            if(this.pendingOperation === undefined && operationTitle !== "result") {
+            if(this.pendingOperation === undefined || operationTitle !== "result") {
                 this.pendingOperation = operationTitle;
             }else {
                 if(this.history.length === 2) {
                     let result = this.operation.execute(this.pendingOperation, this.history[0], this.history[1]);
-                    this.history = [result];
                     this.display.show(result);
 
                     if(operationTitle !== "result") {
@@ -93,5 +96,4 @@ export default class Calculator {
             console.log("Action does not exist");
         }
     }
-
 }

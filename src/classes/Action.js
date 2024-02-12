@@ -33,8 +33,24 @@ export default class Action extends Command {
         return a * a * a;
     }
 
+    tenPower(a) {
+        if(isNaN(a)) {
+            return 10 ** 0;
+        }else {
+            return 10 ** a;
+        }
+    }
+
+    oneDivided(a) {
+        if(isNaN(a)) {
+            return "Error";
+        }else {
+            return 1 / a;
+        }
+    }
+
     execute(operation, number = "") {
-        let num = parseInt(number, 10);
+        let num = parseFloat(number);
         return this[operation](num);
     }
 }
