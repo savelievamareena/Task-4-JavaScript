@@ -1,6 +1,7 @@
 export default class Display {
     constructor() {
         this.domNode = document.querySelector(".display");
+        this.memory = document.querySelector(".memory");
         this.show(0);
     }
 
@@ -12,7 +13,7 @@ export default class Display {
         this.domNode.textContent = stringValue.replace('.', ',');
     }
 
-    reset() {
-        this.show(0);
+    activateMemoryIndicator() {
+        this.memory.textContent = "M";
     }
 }

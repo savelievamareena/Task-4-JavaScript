@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const numbers = document.querySelectorAll(".calc_body .number");
     const operators = document.querySelectorAll(".calc_body .operator");
     const actions = document.querySelectorAll(".calc_body .action");
-    // const memoryOps = document.querySelectorAll(".calc_body .memory");
+    const memoryKeys = document.querySelectorAll(".calc_body .memory");
 
     numbers.forEach((num) => {
         num.addEventListener('click', function () {
@@ -38,4 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
+    memoryKeys.forEach((memoryKey) => {
+        memoryKey.addEventListener('click', function () {
+            const memoryValue = memoryKey.dataset.key;
+            calculator.handleMemoryOperation(memoryValue);
+        })
+    })
 })

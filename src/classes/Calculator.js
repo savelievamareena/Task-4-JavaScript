@@ -31,6 +31,7 @@ export default class Calculator {
         this.history = [];
         this.isNewValue = true;
         this.pendingOperation = undefined;
+        this.operationResult = 0;
 
         this.memento = new Memento();
     }
@@ -44,6 +45,7 @@ export default class Calculator {
             if(number !== "0") {
                 this.history.push(number);
                 this.isNewValue = false;
+                this.operationResult = 0;
             }
         }else {
             this.history[this.history.length - 1] += number.toString();
@@ -62,6 +64,7 @@ export default class Calculator {
                 if(this.history.length === 2) {
                     let result = this.operation.execute(this.pendingOperation, this.history[0], this.history[1]);
                     this.display.show(result);
+                    this.operationResult = result;
 
                     if(operationTitle !== "result") {
                         this.pendingOperation = operationTitle;
@@ -94,6 +97,31 @@ export default class Calculator {
             this.isNewValue = true;
         }else {
             console.log("Action does not exist");
+        }
+    }
+
+    handleMemoryOperation(memoryVal) {
+        if(memoryVal === "m+" || memoryVal === "m-") {
+            this.display.activateMemoryIndicator();
+            let valueToOperate;
+            if(this.operationResult !== 0) {
+                valueToOperate = this.operationResult;
+            }else {
+                valueToOperate = this.history[this.history.length - 1];
+            }
+
+            if(memoryVal === "m+") {
+                this.memento.addToState(valueToOperate);
+            }else {
+                this.memento.subFromState(valueToOperate);
+            }
+        }else {
+            if(memoryVal === "mc") {
+                this.display.deactivateMemoryIndicator();
+                this.memento.clearState();
+            }else {
+                this.display.show(this.memento.getState());
+            }
         }
     }
 }

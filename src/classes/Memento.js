@@ -6,11 +6,11 @@ export default class Memento {
     }
 
     addToState(value) {
-        this.state +=  value;
+        this.state +=  parseFloat(value);
     }
 
     subFromState(value) {
-        this.state -= value;
+        this.state -= parseFloat(value);
     }
 
     clearState() {
