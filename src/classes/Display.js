@@ -20,4 +20,8 @@ export default class Display {
     deactivateMemoryIndicator() {
         this.memory.textContent = "";
     }
+
+    reset() {
+        this.show(0);
+    }
 }
