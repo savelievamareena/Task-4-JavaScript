@@ -1,16 +1,16 @@
 import Command from "./Command";
 
 export default class Action extends Command {
-    allClear(){
-        return 0;
-    }
-
     signChange(a){
         return a * -1;
     }
 
     percent(a) {
-        return a / 100;
+        if(a === 0) {
+            return 0;
+        }else {
+            return a / 100;
+        }
     }
 
     root2(a) {
@@ -34,7 +34,7 @@ export default class Action extends Command {
     }
 
     tenPower(a) {
-        if(isNaN(a)) {
+        if(a === 0) {
             return 10 ** 0;
         }else {
             return 10 ** a;
@@ -42,7 +42,7 @@ export default class Action extends Command {
     }
 
     oneDivided(a) {
-        if(isNaN(a)) {
+        if(a === 0) {
             return "Error";
         }else {
             return 1 / a;
@@ -50,7 +50,14 @@ export default class Action extends Command {
     }
 
     execute(operation, number = "") {
-        let num = parseFloat(number);
-        return this[operation](num);
+        if(typeof number !== "string" && typeof number !== "number") {
+            return "Error";
+        }else {
+            if(number === "") {
+                number = 0;
+            }
+            let num = parseFloat(number);
+            return this[operation](num);
+        }
     }
 }

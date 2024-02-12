@@ -58,11 +58,14 @@ export default class Calculator {
         const operationTitle = this.operationsMap[operator];
 
         if(operationTitle !== undefined) {
-            if(this.pendingOperation === undefined || operationTitle !== "result") {
+            if(this.pendingOperation === undefined) {
                 this.pendingOperation = operationTitle;
             }else {
-                if(this.history.length === 2) {
+                if(this.history.length < 2) {
+                    this.pendingOperation = operationTitle;
+                }else {
                     let result = this.operation.execute(this.pendingOperation, this.history[0], this.history[1]);
+                    this.history = [result];
                     this.display.show(result);
                     this.operationResult = result;
 
@@ -71,13 +74,11 @@ export default class Calculator {
                     }else {
                         this.history = [];
                     }
-                }else {
-                    console.log("You have only one number in history");
                 }
             }
             this.isNewValue = true;
         }else {
-            console.log("Operation does not exist");
+            throw "Operation does not exist";
         }
     }
 
@@ -85,15 +86,20 @@ export default class Calculator {
         const actionTitle = this.actionsMap[action];
 
         if(actionTitle !== undefined) {
-            let result = this.action.execute(actionTitle, this.history[this.history.length - 1]);
-            this.display.show(result);
-
-            if(actionTitle === "signChange" || actionTitle === "percent") {
-                this.history[this.history.length - 1] = result;
-            }else {
+            if(actionTitle === "allClear") {
+                this.pendingOperation = undefined;
                 this.history = [];
-            }
+                this.display.reset();
+            }else {
+                let result = this.action.execute(actionTitle, this.history[this.history.length - 1]);
+                this.display.show(result);
 
+                if(result !== 0 && (actionTitle === "signChange" || actionTitle === "percent")) {
+                    this.history[this.history.length - 1] = result;
+                }else {
+                    this.history = [];
+                }
+            }
             this.isNewValue = true;
         }else {
             console.log("Action does not exist");
