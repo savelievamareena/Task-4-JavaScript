@@ -9,7 +9,9 @@ export default class Calculator {
         "-": "subtract",
         "x": "multiply",
         "/": "divide",
-        "=": "result"
+        "=": "result",
+        "yrad": "rootY",
+        "xy": "exponentiationY"
     };
 
     actionsMap = {
@@ -20,7 +22,9 @@ export default class Calculator {
         "3rad": "root3",
         "x!": "factorial",
         "x2": "exponentiation2",
-        "x3": "exponentiation3"
+        "x3": "exponentiation3",
+        "10x": "tenPower",
+        "1/x": "oneDivided"
     }
 
     constructor() {
@@ -93,5 +97,4 @@ export default class Calculator {
             console.log("Action does not exist");
         }
     }
-
 }
