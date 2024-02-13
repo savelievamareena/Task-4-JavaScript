@@ -34,7 +34,7 @@ export default class Operation extends Command {
     }
 
     execute(operation, ...args) {
-        const parsedArgs = args.map(arg => parseFloat(arg));
+        const parsedArgs = args.map(arg => parseFloat(arg.replace(',', '.')));
         return this[operation](...parsedArgs);
     }
 }

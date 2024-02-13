@@ -54,9 +54,9 @@ export default class Action extends Command {
             return "Error";
         }else {
             if(number === "") {
-                number = 0;
+                number = "0";
             }
-            let num = parseFloat(number);
+            let num = parseFloat(number.replace(',', '.'));
             return this[operation](num);
         }
     }

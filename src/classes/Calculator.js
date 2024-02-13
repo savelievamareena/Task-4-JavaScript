@@ -24,7 +24,8 @@ export default class Calculator {
         "x2": "exponentiation2",
         "x3": "exponentiation3",
         "10x": "tenPower",
-        "1/x": "oneDivided"
+        "1/x": "oneDivided",
+        ",": "decimalPoint"
     }
 
     constructor() {
@@ -47,13 +48,13 @@ export default class Calculator {
             this.operationResult = 0;
         }else {
             if(this.history[this.history.length - 1] !== "0") {
-                this.history[this.history.length - 1] += number.toString();
+                this.history[this.history.length - 1] += number;
             }else {
-                this.history[this.history.length - 1] = number.toString();
+                this.history[this.history.length - 1] = number;
             }
         }
 
-        this.display.show(this.history.length === 0 ? 0 : this.history[this.history.length - 1]);
+        this.display.show(this.history.length === 0 ? "0" : this.history[this.history.length - 1], true);
     }
 
     executeOperation(operator) {
@@ -67,8 +68,8 @@ export default class Calculator {
                     this.pendingOperation = operationTitle;
                 }else {
                     let result = this.operation.execute(this.pendingOperation, this.history[0], this.history[1]);
-                    this.history = [result];
-                    this.display.show(result);
+                    this.history = [result.toString().replace('.', ',')];
+                    this.display.show(result.toString().replace('.', ','));
                     this.operationResult = result;
 
                     if(operationTitle !== "result") {
@@ -92,12 +93,23 @@ export default class Calculator {
                 this.pendingOperation = undefined;
                 this.history = [];
                 this.display.reset();
+            }else if(actionTitle === "decimalPoint") {
+                if(this.history.length === 0 || this.history[this.history.length - 1] === "0") {
+                    this.history.push("0,");
+                }else {
+                    if(this.history[this.history.length - 1].indexOf(",") === -1) {
+                        this.history[this.history.length - 1] += ",";
+                    }
+                }
+                this.display.show(this.history[this.history.length - 1], true);
+                this.isNewValue = false;
+                return;
             }else {
                 let result = this.action.execute(actionTitle, this.history[this.history.length - 1]);
-                this.display.show(result);
+                this.display.show(result.toString().replace('.', ','));
 
                 if(result !== 0 && (actionTitle === "signChange" || actionTitle === "percent")) {
-                    this.history[this.history.length - 1] = result;
+                    this.history[this.history.length - 1] = result.toString().replace('.', ',');
                 }else {
                     this.history = [];
                 }
@@ -128,7 +140,7 @@ export default class Calculator {
                 this.display.deactivateMemoryIndicator();
                 this.memento.clearState();
             }else {
-                this.display.show(this.memento.getState());
+                this.display.show(this.memento.getState().toString().replace('.', ','));
             }
         }
     }
