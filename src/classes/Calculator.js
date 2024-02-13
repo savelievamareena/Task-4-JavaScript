@@ -42,16 +42,18 @@ export default class Calculator {
 
     processNumberClick(number) {
         if(this.isNewValue) {
-            if(number !== "0") {
-                this.history.push(number);
-                this.isNewValue = false;
-                this.operationResult = 0;
-            }
+            this.history.push(number);
+            this.isNewValue = false;
+            this.operationResult = 0;
         }else {
-            this.history[this.history.length - 1] += number.toString();
+            if(this.history[this.history.length - 1] !== "0") {
+                this.history[this.history.length - 1] += number.toString();
+            }else {
+                this.history[this.history.length - 1] = number.toString();
+            }
         }
 
-        this.display.show(this.history.length === 0 ? 0 : this.history[this.history.length - 1] );
+        this.display.show(this.history.length === 0 ? 0 : this.history[this.history.length - 1]);
     }
 
     executeOperation(operator) {
