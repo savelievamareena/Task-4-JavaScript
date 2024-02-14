@@ -1,7 +1,7 @@
-import Operation from "./Operation";
+import OperationOneOperand from "./OperationOneOperand";
+import OperationTwoOperands from "./OperationTwoOperands";
 import Display from "./Display";
 import Memento from "./Memento";
-import Action from "./Action";
 
 export default class Calculator {
     operationsMap = {
@@ -38,8 +38,8 @@ export default class Calculator {
     }
 
     display = new Display();
-    operation = new Operation();
-    action = new Action();
+    operation = new OperationTwoOperands();
+    action = new OperationOneOperand();
 
     processNumberClick(number) {
         if (this.isNewValue) {

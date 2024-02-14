@@ -1,11 +1,11 @@
 import {beforeEach, describe, expect, test} from '@jest/globals';
-import Operation from "../src/classes/Operation";
+import OperationTwoOperands from "../src/classes/OperationTwoOperands";
 
 describe('Operation', () => {
     let operation;
 
     beforeEach(() => {
-        operation = new Operation();
+        operation = new OperationTwoOperands();
     });
 
     test('adds two numbers', () => {

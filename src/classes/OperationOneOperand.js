@@ -1,6 +1,6 @@
 import Command from "./Command";
 
-export default class Action extends Command {
+export default class OperationOneOperand extends Command {
     signChange(a) {
         return a * -1;
     }

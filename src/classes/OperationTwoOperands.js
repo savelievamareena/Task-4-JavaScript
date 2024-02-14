@@ -1,6 +1,6 @@
 import Command from "./Command";
 
-export default class Operation extends Command {
+export default class OperationTwoOperands extends Command {
     add(a, b) {
         return a + b;
     }

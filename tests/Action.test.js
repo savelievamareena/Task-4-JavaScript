@@ -1,11 +1,11 @@
 import {beforeEach, describe, expect, test} from '@jest/globals';
-import Action from '../src/classes/Action';
+import OperationOneOperand from '../src/classes/OperationOneOperand';
 
 describe('Action operations', () => {
     let action;
 
     beforeEach(() => {
-        action = new Action();
+        action = new OperationOneOperand();
     });
 
     test('changes sign of a number', () => {
