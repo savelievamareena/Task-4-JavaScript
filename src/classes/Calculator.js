@@ -35,31 +35,25 @@ export default class Calculator {
         this.operationResult = 0;
 
         this.memento = new Memento();
+        this.display = new Display();
+        this.operation = new OperationTwoOperands();
+        this.action = new OperationOneOperand();
     }
-
-    display = new Display();
-    operation = new OperationTwoOperands();
-    action = new OperationOneOperand();
 
     processNumberClick(number) {
         if (this.isNewValue) {
             this.history.push(number);
-            this.isNewValue = false;
             this.operationResult = 0;
+            this.isNewValue = false;
         } else {
-            if (this.history[this.history.length - 1] !== "0") {
-                this.history[this.history.length - 1] += number;
-            } else {
-                this.history[this.history.length - 1] = number;
-            }
+            let lastIndex = this.history.length - 1;
+            this.history[lastIndex] =
+                this.history[lastIndex] === "0"
+                    ? number
+                    : this.history[lastIndex] + number;
         }
 
-        this.display.show(
-            this.history.length === 0
-                ? "0"
-                : this.history[this.history.length - 1],
-            true
-        );
+        this.display.show(this.history[this.history.length - 1], true);
     }
 
     executeOperation(operator) {
@@ -97,50 +91,53 @@ export default class Calculator {
     processAction(action) {
         const actionTitle = this.actionsMap[action];
 
-        if (actionTitle !== undefined) {
-            if (actionTitle === "allClear") {
-                this.pendingOperation = undefined;
-                this.history = [];
-                this.display.reset();
-            } else if (actionTitle === "decimalPoint") {
-                if (
-                    this.history.length === 0 ||
-                    this.history[this.history.length - 1] === "0"
-                ) {
-                    this.history.push("0,");
-                } else {
-                    if (
-                        this.history[this.history.length - 1].indexOf(",") ===
-                        -1
-                    ) {
-                        this.history[this.history.length - 1] += ",";
-                    }
-                }
-                this.display.show(this.history[this.history.length - 1], true);
-                this.isNewValue = false;
-                return;
-            } else {
-                let result = this.action.execute(
-                    actionTitle,
-                    this.history[this.history.length - 1]
-                );
-                this.display.show(result.toString().replace(".", ","));
-
-                if (
-                    result !== 0 &&
-                    (actionTitle === "signChange" || actionTitle === "percent")
-                ) {
-                    this.history[this.history.length - 1] = result
-                        .toString()
-                        .replace(".", ",");
-                } else {
-                    this.history = [];
-                }
-            }
-            this.isNewValue = true;
-        } else {
-            console.log("Action does not exist");
+        if (actionTitle === undefined) {
+            throw new Error("Action does not exist");
         }
+
+        let historyLength = this.history.length;
+
+        if (actionTitle === "allClear") {
+            this.pendingOperation = undefined;
+            this.history = [];
+            this.display.reset();
+        }
+
+        if (actionTitle === "decimalPoint") {
+            if (historyLength === 0 || this.isNewValue) {
+                this.history.push("0,");
+                this.isNewValue = false;
+            }
+
+            if (
+                historyLength !== 0 &&
+                this.history[historyLength - 1].indexOf(",") === -1
+            ) {
+                this.history[historyLength - 1] += ",";
+            }
+
+            this.display.show(this.history[historyLength - 1], true);
+            return;
+        }
+
+        if (actionTitle !== "allClear" && actionTitle !== "decimalPoint") {
+            let result = this.action.execute(
+                actionTitle,
+                this.history[historyLength - 1]
+            );
+            this.operationResult = result;
+            this.display.show(result.toString().replace(".", ","));
+
+            if (actionTitle === "signChange" || actionTitle === "percent") {
+                this.history[historyLength - 1] = result
+                    .toString()
+                    .replace(".", ",");
+            } else {
+                this.history = [];
+            }
+        }
+
+        this.isNewValue = true;
     }
 
     handleMemoryOperation(memoryVal) {
