@@ -6,13 +6,15 @@ export default class Display {
     }
 
     show(value, isTrailingZeroesOK = false) {
-        if((value !== "" && value.endsWith(",")) || isTrailingZeroesOK) {
+        if ((value !== "" && value.endsWith(",")) || isTrailingZeroesOK) {
             this.domNode.textContent = value;
-        }else {
-            let valFixedDots = value.replace(',', '.');
+        } else {
+            let valFixedDots = value.replace(",", ".");
             let valAsNum = parseFloat(valFixedDots);
             let withoutTrailingZeroes = 1 * valAsNum.toFixed(10);
-            this.domNode.textContent = withoutTrailingZeroes.toString().replace('.', ',');
+            this.domNode.textContent = withoutTrailingZeroes
+                .toString()
+                .replace(".", ",");
         }
     }
 

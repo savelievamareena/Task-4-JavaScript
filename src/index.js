@@ -18,30 +18,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const memoryKeys = document.querySelectorAll(".calc_body .memory");
 
     numbers.forEach((num) => {
-        num.addEventListener('click', function () {
+        num.addEventListener("click", function () {
             const numValue = num.dataset.key;
             calculator.processNumberClick(numValue);
-        })
-    })
+        });
+    });
 
     operators.forEach((operator) => {
-        operator.addEventListener('click', function () {
+        operator.addEventListener("click", function () {
             const operatorValue = operator.dataset.key;
             calculator.executeOperation(operatorValue);
-        })
-    })
+        });
+    });
 
     actions.forEach((action) => {
-        action.addEventListener('click', function () {
+        action.addEventListener("click", function () {
             const actionValue = action.dataset.key;
             calculator.processAction(actionValue);
-        })
-    })
+        });
+    });
 
     memoryKeys.forEach((memoryKey) => {
-        memoryKey.addEventListener('click', function () {
+        memoryKey.addEventListener("click", function () {
             const memoryValue = memoryKey.dataset.key;
             calculator.handleMemoryOperation(memoryValue);
-        })
-    })
-})
+        });
+    });
+});
