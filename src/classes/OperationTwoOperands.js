@@ -14,19 +14,17 @@ export default class OperationTwoOperands extends Command {
     }
 
     divide(a, b) {
-        if (b !== 0) {
-            return a / b;
-        } else {
-            return "Error";
+        if (b === 0) {
+            throw new Error("Incorrect operation");
         }
+        return a / b;
     }
 
     rootY(a, b) {
-        if (b !== 0) {
-            return Math.pow(a, 1 / b);
-        } else {
-            return "Error";
+        if (b === 0) {
+            throw new Error("Incorrect operation");
         }
+        return Math.pow(a, 1 / b);
     }
 
     exponentiationY(a, b) {
@@ -34,7 +32,14 @@ export default class OperationTwoOperands extends Command {
     }
 
     execute(operation, ...args) {
-        const parsedArgs = args.map((arg) => parseFloat(arg.replace(",", ".")));
+        debugger
+        const parsedArgs = args.map((arg) => {
+            if (!arg) {
+                throw new Error("Incorrect operation");
+            }
+            return parseFloat(arg.replace(",", "."));
+        });
+
         return this[operation](...parsedArgs);
     }
 }

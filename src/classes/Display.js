@@ -6,7 +6,12 @@ export default class Display {
     }
 
     show(value, isTrailingZeroesOK = false) {
-        if ((value !== "" && value.endsWith(",")) || isTrailingZeroesOK) {
+        if(value === "Error") {
+            this.domNode.textContent = value;
+            return
+        }
+
+        if (value.endsWith(",") || isTrailingZeroesOK) {
             this.domNode.textContent = value;
         } else {
             let valFixedDots = value.replace(",", ".");

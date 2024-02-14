@@ -3,31 +3,10 @@ import OperationTwoOperands from "./OperationTwoOperands";
 import Display from "./Display";
 import Memento from "./Memento";
 
+import operationsMap from "../../constants/operationsMap";
+import actionsMap from "../../constants/actionsMap";
+
 export default class Calculator {
-    operationsMap = {
-        "+": "add",
-        "-": "subtract",
-        "x": "multiply",
-        "/": "divide",
-        "=": "result",
-        "yrad": "rootY",
-        "xy": "exponentiationY"
-    };
-
-    actionsMap = {
-        "AC": "allClear",
-        "+/-": "signChange",
-        "%": "percent",
-        "2rad": "root2",
-        "3rad": "root3",
-        "x!": "factorial",
-        "x2": "exponentiation2",
-        "x3": "exponentiation3",
-        "10x": "tenPower",
-        "1/x": "oneDivided",
-        ",": "decimalPoint"
-    };
-
     constructor() {
         this.history = [];
         this.isNewValue = true;
@@ -57,7 +36,7 @@ export default class Calculator {
     }
 
     executeOperation(operator) {
-        const operationTitle = this.operationsMap[operator];
+        const operationTitle = operationsMap[operator];
 
         if (operationTitle === undefined) {
             throw new Error("Action does not exist");
@@ -69,11 +48,18 @@ export default class Calculator {
             return;
         }
 
-        let result = this.operation.execute(
-            this.pendingOperation,
-            this.history[0],
-            this.history[1]
-        );
+        let result;
+        try {
+            result = this.operation.execute(
+                this.pendingOperation,
+                this.history[0],
+                this.history[1]
+            );
+        } catch(error) {
+            this.display.show("Error");
+            return;
+        }
+
         this.operationResult = result;
 
         let resultAsString = result.toString().replace(".", ",");
@@ -88,7 +74,7 @@ export default class Calculator {
     }
 
     processAction(action) {
-        const actionTitle = this.actionsMap[action];
+        const actionTitle = actionsMap[action];
 
         if (actionTitle === undefined) {
             throw new Error("Action does not exist");
@@ -115,15 +101,22 @@ export default class Calculator {
                 this.history[historyLength - 1] += ",";
             }
 
-            this.display.show(this.history[historyLength - 1], true);
+            this.display.show(this.history[this.history.length - 1], true);
             return;
         }
 
         if (actionTitle !== "allClear" && actionTitle !== "decimalPoint") {
-            let result = this.action.execute(
-                actionTitle,
-                this.history[historyLength - 1]
-            );
+            let result;
+            try {
+                result = this.action.execute(
+                    actionTitle,
+                    this.history[0]
+                );
+            } catch(error) {
+                this.display.show("Error");
+                return;
+            }
+
             this.operationResult = result;
             this.display.show(result.toString().replace(".", ","));
 

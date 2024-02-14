@@ -8,9 +8,9 @@ export default class OperationOneOperand extends Command {
     percent(a) {
         if (a === 0) {
             return 0;
-        } else {
-            return a / 100;
         }
+
+        return a / 100;
     }
 
     root2(a) {
@@ -34,31 +34,23 @@ export default class OperationOneOperand extends Command {
     }
 
     tenPower(a) {
-        if (a === 0) {
-            return 10 ** 0;
-        } else {
-            return 10 ** a;
-        }
+        return 10 ** a;
     }
 
     oneDivided(a) {
         if (a === 0) {
-            return "Error";
+            throw new Error("Incorrect operation");
         } else {
             return 1 / a;
         }
     }
 
-    execute(operation, number = "") {
-        if (typeof number !== "string" && typeof number !== "number") {
-            return "Error";
-        } else {
-            if (number === "") {
-                number = "0";
-            }
-            let num = parseFloat(number.replace(",", "."));
-
-            return this[operation](num);
+    execute(operation, number = 0) {
+        if (!number) {
+            throw new Error("Incorrect operation");
         }
+        let num = parseFloat(number.replace(",", "."));
+
+        return this[operation](num);
     }
 }
