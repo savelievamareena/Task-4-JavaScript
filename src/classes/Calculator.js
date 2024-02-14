@@ -59,32 +59,31 @@ export default class Calculator {
     executeOperation(operator) {
         const operationTitle = this.operationsMap[operator];
 
-        if (operationTitle !== undefined) {
-            if (this.pendingOperation === undefined) {
-                this.pendingOperation = operationTitle;
-            } else {
-                if (this.history.length < 2) {
-                    this.pendingOperation = operationTitle;
-                } else {
-                    let result = this.operation.execute(
-                        this.pendingOperation,
-                        this.history[0],
-                        this.history[1]
-                    );
-                    this.history = [result.toString().replace(".", ",")];
-                    this.display.show(result.toString().replace(".", ","));
-                    this.operationResult = result;
+        if (operationTitle === undefined) {
+            throw new Error("Action does not exist");
+        }
 
-                    if (operationTitle !== "result") {
-                        this.pendingOperation = operationTitle;
-                    } else {
-                        this.history = [];
-                    }
-                }
-            }
-            this.isNewValue = true;
+        this.isNewValue = true;
+        if (this.pendingOperation === undefined || this.history.length < 2) {
+            this.pendingOperation = operationTitle;
+            return;
+        }
+
+        let result = this.operation.execute(
+            this.pendingOperation,
+            this.history[0],
+            this.history[1]
+        );
+        this.operationResult = result;
+
+        let resultAsString = result.toString().replace(".", ",");
+        this.history = [resultAsString];
+        this.display.show(resultAsString);
+
+        if (operationTitle !== "result") {
+            this.pendingOperation = operationTitle;
         } else {
-            throw "Operation does not exist";
+            this.history = [];
         }
     }
 
@@ -143,27 +142,26 @@ export default class Calculator {
     handleMemoryOperation(memoryVal) {
         if (memoryVal === "m+" || memoryVal === "m-") {
             this.display.activateMemoryIndicator();
-            let valueToOperate;
-            if (this.operationResult !== 0) {
-                valueToOperate = this.operationResult;
-            } else {
-                valueToOperate = this.history[this.history.length - 1];
-            }
 
-            if (memoryVal === "m+") {
-                this.memento.addToState(valueToOperate);
-            } else {
-                this.memento.subFromState(valueToOperate);
-            }
-        } else {
-            if (memoryVal === "mc") {
-                this.display.deactivateMemoryIndicator();
-                this.memento.clearState();
-            } else {
-                this.display.show(
-                    this.memento.getState().toString().replace(".", ",")
-                );
-            }
+            let valueToOperate =
+                this.operationResult !== 0
+                    ? this.operationResult
+                    : this.history[this.history.length - 1];
+
+            memoryVal === "m+"
+                ? this.memento.addToState(valueToOperate)
+                : this.memento.subFromState(valueToOperate);
+        }
+
+        if (memoryVal === "mc") {
+            this.display.deactivateMemoryIndicator();
+            this.memento.clearState();
+        }
+
+        if (memoryVal === "mr") {
+            this.display.show(
+                this.memento.getState().toString().replace(".", ",")
+            );
         }
     }
 }
