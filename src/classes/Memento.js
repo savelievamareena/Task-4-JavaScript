@@ -6,7 +6,7 @@ export default class Memento {
     }
 
     addToState(value) {
-        this.state +=  parseFloat(value);
+        this.state += parseFloat(value);
     }
 
     subFromState(value) {

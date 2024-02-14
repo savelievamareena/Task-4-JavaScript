@@ -1,14 +1,14 @@
 import Command from "./Command";
 
 export default class Action extends Command {
-    signChange(a){
+    signChange(a) {
         return a * -1;
     }
 
     percent(a) {
-        if(a === 0) {
+        if (a === 0) {
             return 0;
-        }else {
+        } else {
             return a / 100;
         }
     }
@@ -22,7 +22,7 @@ export default class Action extends Command {
     }
 
     factorial(a) {
-        return (a !== 1) ? a * this.factorial(a - 1) : 1;
+        return a !== 1 ? a * this.factorial(a - 1) : 1;
     }
 
     exponentiation2(a) {
@@ -34,29 +34,30 @@ export default class Action extends Command {
     }
 
     tenPower(a) {
-        if(a === 0) {
+        if (a === 0) {
             return 10 ** 0;
-        }else {
+        } else {
             return 10 ** a;
         }
     }
 
     oneDivided(a) {
-        if(a === 0) {
+        if (a === 0) {
             return "Error";
-        }else {
+        } else {
             return 1 / a;
         }
     }
 
     execute(operation, number = "") {
-        if(typeof number !== "string" && typeof number !== "number") {
+        if (typeof number !== "string" && typeof number !== "number") {
             return "Error";
-        }else {
-            if(number === "") {
+        } else {
+            if (number === "") {
                 number = "0";
             }
-            let num = parseFloat(number.replace(',', '.'));
+            let num = parseFloat(number.replace(",", "."));
+
             return this[operation](num);
         }
     }

@@ -14,17 +14,17 @@ export default class Operation extends Command {
     }
 
     divide(a, b) {
-        if(b !== 0) {
+        if (b !== 0) {
             return a / b;
-        }else {
+        } else {
             return "Error";
         }
     }
 
     rootY(a, b) {
-        if(b !== 0) {
+        if (b !== 0) {
             return Math.pow(a, 1 / b);
-        }else {
+        } else {
             return "Error";
         }
     }
@@ -34,7 +34,7 @@ export default class Operation extends Command {
     }
 
     execute(operation, ...args) {
-        const parsedArgs = args.map(arg => parseFloat(arg.replace(',', '.')));
+        const parsedArgs = args.map((arg) => parseFloat(arg.replace(",", ".")));
         return this[operation](...parsedArgs);
     }
 }
