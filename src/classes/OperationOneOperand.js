@@ -40,17 +40,16 @@ export default class OperationOneOperand extends Command {
     oneDivided(a) {
         if (a === 0) {
             throw new Error("Incorrect operation");
-        } else {
-            return 1 / a;
         }
+
+        return 1 / a;
     }
 
     execute(operation, number = 0) {
         if (!number) {
             throw new Error("Incorrect operation");
         }
-        let num = parseFloat(number.replace(",", "."));
 
-        return this[operation](num);
+        return this[operation](parseFloat(number.replace(",", ".")));
     }
 }

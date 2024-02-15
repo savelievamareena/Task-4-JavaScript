@@ -17,6 +17,7 @@ export default class OperationTwoOperands extends Command {
         if (b === 0) {
             throw new Error("Incorrect operation");
         }
+
         return a / b;
     }
 
@@ -24,6 +25,7 @@ export default class OperationTwoOperands extends Command {
         if (b === 0) {
             throw new Error("Incorrect operation");
         }
+
         return Math.pow(a, 1 / b);
     }
 
@@ -32,7 +34,6 @@ export default class OperationTwoOperands extends Command {
     }
 
     execute(operation, ...args) {
-        debugger
         const parsedArgs = args.map((arg) => {
             if (!arg) {
                 throw new Error("Incorrect operation");
