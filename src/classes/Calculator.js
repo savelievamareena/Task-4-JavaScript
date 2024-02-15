@@ -5,6 +5,7 @@ import Memento from "./Memento";
 
 import operationsMap from "../../constants/operationsMap";
 import actionsMap from "../../constants/actionsMap";
+import memoryOpsMap from "../../constants/memoryOpsMap";
 
 export default class Calculator {
     constructor() {
@@ -19,13 +20,18 @@ export default class Calculator {
         this.action = new OperationOneOperand();
     }
 
+    clearData() {
+        this.pendingOperation = undefined;
+        this.history = [];
+    }
+
     processNumberClick(number) {
         if (this.isNewValue) {
             this.history.push(number);
             this.operationResult = 0;
             this.isNewValue = false;
         } else {
-            let lastIndex = this.history.length - 1;
+            const lastIndex = this.history.length - 1;
             this.history[lastIndex] =
                 this.history[lastIndex] === "0"
                     ? number
@@ -45,6 +51,7 @@ export default class Calculator {
         this.isNewValue = true;
         if (this.pendingOperation === undefined || this.history.length < 2) {
             this.pendingOperation = operationTitle;
+
             return;
         }
 
@@ -55,21 +62,23 @@ export default class Calculator {
                 this.history[0],
                 this.history[1]
             );
-        } catch(error) {
+        } catch {
             this.display.show("Error");
+            this.clearData();
+
             return;
         }
 
         this.operationResult = result;
 
-        let resultAsString = result.toString().replace(".", ",");
+        const resultAsString = result.toString().replace(".", ",");
         this.history = [resultAsString];
         this.display.show(resultAsString);
 
-        if (operationTitle !== "result") {
+        if (operationTitle !== operationsMap["RES"]) {
             this.pendingOperation = operationTitle;
         } else {
-            this.history = [];
+            this.pendingOperation = undefined;
         }
     }
 
@@ -80,15 +89,13 @@ export default class Calculator {
             throw new Error("Action does not exist");
         }
 
-        let historyLength = this.history.length;
-
-        if (actionTitle === "allClear") {
-            this.pendingOperation = undefined;
-            this.history = [];
+        if (actionTitle === actionsMap["AC"]) {
+            this.clearData();
             this.display.reset();
         }
 
-        if (actionTitle === "decimalPoint") {
+        const historyLength = this.history.length;
+        if (actionTitle === actionsMap["DEC"]) {
             if (historyLength === 0 || this.isNewValue) {
                 this.history.push("0,");
                 this.isNewValue = false;
@@ -102,30 +109,36 @@ export default class Calculator {
             }
 
             this.display.show(this.history[this.history.length - 1], true);
+
             return;
         }
 
-        if (actionTitle !== "allClear" && actionTitle !== "decimalPoint") {
+        if (
+            actionTitle !== actionsMap["AC"] &&
+            actionTitle !== actionsMap["DEC"]
+        ) {
             let result;
             try {
                 result = this.action.execute(
                     actionTitle,
-                    this.history[0]
+                    this.history[historyLength - 1]
                 );
-            } catch(error) {
+            } catch (error) {
                 this.display.show("Error");
+                this.clearData();
+
                 return;
             }
 
             this.operationResult = result;
             this.display.show(result.toString().replace(".", ","));
 
-            if (actionTitle === "signChange" || actionTitle === "percent") {
+            if(isFinite(result)) {
                 this.history[historyLength - 1] = result
                     .toString()
                     .replace(".", ",");
-            } else {
-                this.history = [];
+            }else {
+                this.clearData();
             }
         }
 
@@ -133,25 +146,28 @@ export default class Calculator {
     }
 
     handleMemoryOperation(memoryVal) {
-        if (memoryVal === "m+" || memoryVal === "m-") {
+        if (
+            memoryVal === memoryOpsMap["M_ADD"] ||
+            memoryVal === memoryOpsMap["M_SUB"]
+        ) {
             this.display.activateMemoryIndicator();
 
-            let valueToOperate =
+            const valueToOperate =
                 this.operationResult !== 0
                     ? this.operationResult
                     : this.history[this.history.length - 1];
 
-            memoryVal === "m+"
+            memoryVal === memoryOpsMap["M_ADD"]
                 ? this.memento.addToState(valueToOperate)
                 : this.memento.subFromState(valueToOperate);
         }
 
-        if (memoryVal === "mc") {
+        if (memoryVal === memoryOpsMap["M_CLEAR"]) {
             this.display.deactivateMemoryIndicator();
             this.memento.clearState();
         }
 
-        if (memoryVal === "mr") {
+        if (memoryVal === memoryOpsMap["M_RECALL"]) {
             this.display.show(
                 this.memento.getState().toString().replace(".", ",")
             );

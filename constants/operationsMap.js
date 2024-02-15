@@ -1,11 +1,11 @@
 const operationsMap = {
-    "+": "add",
-    "-": "subtract",
-    "x": "multiply",
-    "/": "divide",
-    "=": "result",
-    "yrad": "rootY",
-    "xy": "exponentiationY"
+    ADD: "add",
+    SUB: "subtract",
+    MULT: "multiply",
+    DIV: "divide",
+    RES: "result",
+    ROOTY: "rootY",
+    EXPY: "exponentiationY"
 };
 
 export default operationsMap;

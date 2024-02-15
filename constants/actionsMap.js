@@ -1,15 +1,15 @@
 const actionsMap = {
-    "AC": "allClear",
-    "+/-": "signChange",
-    "%": "percent",
-    "2rad": "root2",
-    "3rad": "root3",
-    "x!": "factorial",
-    "x2": "exponentiation2",
-    "x3": "exponentiation3",
-    "10x": "tenPower",
-    "1/x": "oneDivided",
-    ",": "decimalPoint"
+    AC: "allClear",
+    CHG_SIGN: "signChange",
+    PCT: "percent",
+    SQRT: "root2",
+    CBRT: "root3",
+    FACT: "factorial",
+    SQR: "exponentiation2",
+    CUBE: "exponentiation3",
+    POW10: "tenPower",
+    RECIP: "oneDivided",
+    DEC: "decimalPoint"
 };
 
 export default actionsMap;
