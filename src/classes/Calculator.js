@@ -27,7 +27,9 @@ export default class Calculator {
 
     processNumberClick(number) {
         if (this.isNewValue) {
-            this.history.push(number);
+            this.pendingOperation === undefined //check if we clicked = before
+                ? (this.history = [number])
+                : this.history.push(number);
             this.operationResult = 0;
             this.isNewValue = false;
         } else {
@@ -133,11 +135,11 @@ export default class Calculator {
             this.operationResult = result;
             this.display.show(result.toString().replace(".", ","));
 
-            if(isFinite(result)) {
+            if (isFinite(result)) {
                 this.history[historyLength - 1] = result
                     .toString()
                     .replace(".", ",");
-            }else {
+            } else {
                 this.clearData();
             }
         }
