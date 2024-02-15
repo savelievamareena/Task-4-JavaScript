@@ -33,114 +33,114 @@
         <div class="calc_body">
             <div class="calc_column">
                 <div class="calc_row">
-                    <div class="button dark">(</div>
-                    <div class="button dark">)</div>
+                    <button class="button dark" disabled>(</button>
+                    <button class="button dark" disabled>)</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark">2<small><sup>nd</sup></small></div>
-                    <div class="button dark action" data-key="x2">x<small><sup>2</sup></small></div>
+                    <button class="button dark" disabled>2<small><sup>nd</sup></small></button>
+                    <button class="button dark action" data-key="SQR">x<small><sup>2</sup></small></button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark action" data-key="1/x">1/x</div>
-                    <div class="button dark action" data-key="2rad">&#8730;x</div>
+                    <button class="button dark action" data-key="RECIP">1/x</button>
+                    <button class="button dark action" data-key="SQRT">&#8730;x</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark action" data-key="x!">x!</div>
-                    <div class="button dark">sin</div>
+                    <button class="button dark action" data-key="FACT">x!</button>
+                    <button class="button dark" disabled>sin</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark">Rad</div>
-                    <div class="button dark">sinh</div>
-                </div>
-            </div>
-
-            <div class="calc_column">
-                <div class="calc_row">
-                    <div class="button dark memory" data-key="mc">mc</div>
-                    <div class="button dark memory" data-key="m+">m+</div>
-                </div>
-                <div class="calc_row">
-                    <div class="button dark action" data-key="x3">x<small><sup>3</sup></small></div>
-                    <div class="button dark operator" data-key="xy">x<small><sup>y</sup></small></div>
-                </div>
-                <div class="calc_row">
-                    <div class="button dark action" data-key="3rad">&#8731;x</div>
-                    <div class="button dark operator" data-key="yrad"><small><sup>y</sup></small>&#8730;x</div>
-                </div>
-                <div class="calc_row">
-                    <div class="button dark">cos</div>
-                    <div class="button dark">tan</div>
-                </div>
-                <div class="calc_row">
-                    <div class="button dark">cosh</div>
-                    <div class="button dark">tanh</div>
+                    <button class="button dark" disabled>Rad</button>
+                    <button class="button dark" disabled>sinh</button>
                 </div>
             </div>
 
             <div class="calc_column">
                 <div class="calc_row">
-                    <div class="button dark memory" data-key="m-">m-</div>
-                    <div class="button dark memory" data-key="mr">mr</div>
+                    <button class="button dark memory" data-key="M_CLEAR">mc</button>
+                    <button class="button dark memory" data-key="M_ADD">m+</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark">e<small><sup>x</sup></small></div>
-                    <div class="button dark action" data-key="10x">10<small><sup>x</sup></small></div>
+                    <button class="button dark action" data-key="CUBE">x<small><sup>3</sup></small></button>
+                    <button class="button dark operator" data-key="EXPY">x<small><sup>y</sup></small></button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark action" data-key="ln">ln</div>
-                    <div class="button dark action" data-key="log10">log<small><sub>10</sub></small></div>
+                    <button class="button dark action" data-key="CBRT">&#8731;x</button>
+                    <button class="button dark operator" data-key="ROOTY"><small><sup>y</sup></small>&#8730;x</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark action">e</div>
-                    <div class="button dark action">EE</div>
+                    <button class="button dark" disabled>cos</button>
+                    <button class="button dark" disabled>tan</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button dark action">&#960;</div>
-                    <div class="button dark action">Rand</div>
+                    <button class="button dark" disabled>cosh</button>
+                    <button class="button dark" disabled>tanh</button>
                 </div>
             </div>
 
             <div class="calc_column">
                 <div class="calc_row">
-                    <div class="button dark action" data-key="AC">AC</div>
-                    <div class="button dark action" data-key="+/-">+/-</div>
+                    <button class="button dark memory" data-key="m-">m-</button>
+                    <button class="button dark memory" data-key="mr">mr</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="7">7</div>
-                    <div class="button number" data-key="8">8</div>
+                    <button class="button dark" disabled>e<small><sup>x</sup></small></button>
+                    <button class="button dark action" data-key="POW10">10<small><sup>x</sup></small></button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="4">4</div>
-                    <div class="button number" data-key="5">5</div>
+                    <button class="button dark action" disabled>ln</button>
+                    <button class="button dark action" disabled>log<small><sub>10</sub></small></button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="1">1</div>
-                    <div class="button number" data-key="2">2</div>
+                    <button class="button dark action" disabled>e</button>
+                    <button class="button dark action" disabled>EE</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number wide" data-key="0">0</div>
+                    <button class="button dark action" disabled>&#960;</button>
+                    <button class="button dark action" disabled>Rand</button>
+                </div>
+            </div>
+
+            <div class="calc_column">
+                <div class="calc_row">
+                    <button class="button dark action" data-key="AC">AC</button>
+                    <button class="button dark action" data-key="CHG_SIGN">+/-</button>
+                </div>
+                <div class="calc_row">
+                    <button class="button number" data-key="7">7</button>
+                    <button class="button number" data-key="8">8</button>
+                </div>
+                <div class="calc_row">
+                    <button class="button number" data-key="4">4</button>
+                    <button class="button number" data-key="5">5</button>
+                </div>
+                <div class="calc_row">
+                    <button class="button number" data-key="1">1</button>
+                    <button class="button number" data-key="2">2</button>
+                </div>
+                <div class="calc_row">
+                    <button class="button number wide" data-key="0">0</button>
                 </div>
             </div>
             <div class="calc_column">
                 <div class="calc_row">
-                    <div class="button dark action" data-key="%">%</div>
-                    <div class="button orange operator" data-key="/">÷</div>
+                    <button class="button dark action" data-key="PCT">%</button>
+                    <button class="button orange operator" data-key="DIV">÷</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="9">9</div>
-                    <div class="button orange operator" data-key="x">×</div>
+                    <button class="button number" data-key="9">9</button>
+                    <button class="button orange operator" data-key="MULT">×</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="6">6</div>
-                    <div class="button orange operator" data-key="-">-</div>
+                    <button class="button number" data-key="6">6</button>
+                    <button class="button orange operator" data-key="SUB">-</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button number" data-key="3">3</div>
-                    <div class="button orange operator" data-key="+">+</div>
+                    <button class="button number" data-key="3">3</button>
+                    <button class="button orange operator" data-key="ADD">+</button>
                 </div>
                 <div class="calc_row">
-                    <div class="button action" data-key=",">,</div>
-                    <div class="button orange operator" data-key="=">=</div>
+                    <button class="button action" data-key="DEC">,</button>
+                    <button class="button orange operator" data-key="RES">=</button>
                 </div>
             </div>
         </div>

@@ -1,33 +1,13 @@
-import Operation from "./Operation";
+import OperationOneOperand from "./OperationOneOperand";
+import OperationTwoOperands from "./OperationTwoOperands";
 import Display from "./Display";
 import Memento from "./Memento";
-import Action from "./Action";
+
+import operationsMap from "../../constants/operationsMap";
+import actionsMap from "../../constants/actionsMap";
+import memoryOpsMap from "../../constants/memoryOpsMap";
 
 export default class Calculator {
-    operationsMap = {
-        "+": "add",
-        "-": "subtract",
-        "x": "multiply",
-        "/": "divide",
-        "=": "result",
-        "yrad": "rootY",
-        "xy": "exponentiationY"
-    };
-
-    actionsMap = {
-        "AC": "allClear",
-        "+/-": "signChange",
-        "%": "percent",
-        "2rad": "root2",
-        "3rad": "root3",
-        "x!": "factorial",
-        "x2": "exponentiation2",
-        "x3": "exponentiation3",
-        "10x": "tenPower",
-        "1/x": "oneDivided",
-        ",": "decimalPoint"
-    };
-
     constructor() {
         this.history = [];
         this.isNewValue = true;
@@ -35,138 +15,162 @@ export default class Calculator {
         this.operationResult = 0;
 
         this.memento = new Memento();
+        this.display = new Display();
+        this.operation = new OperationTwoOperands();
+        this.action = new OperationOneOperand();
     }
 
-    display = new Display();
-    operation = new Operation();
-    action = new Action();
+    clearData() {
+        this.pendingOperation = undefined;
+        this.history = [];
+    }
 
     processNumberClick(number) {
         if (this.isNewValue) {
             this.history.push(number);
-            this.isNewValue = false;
             this.operationResult = 0;
+            this.isNewValue = false;
         } else {
-            if (this.history[this.history.length - 1] !== "0") {
-                this.history[this.history.length - 1] += number;
-            } else {
-                this.history[this.history.length - 1] = number;
-            }
+            const lastIndex = this.history.length - 1;
+            this.history[lastIndex] =
+                this.history[lastIndex] === "0"
+                    ? number
+                    : this.history[lastIndex] + number;
         }
 
-        this.display.show(
-            this.history.length === 0
-                ? "0"
-                : this.history[this.history.length - 1],
-            true
-        );
+        this.display.show(this.history[this.history.length - 1], true);
     }
 
     executeOperation(operator) {
-        const operationTitle = this.operationsMap[operator];
+        const operationTitle = operationsMap[operator];
 
-        if (operationTitle !== undefined) {
-            if (this.pendingOperation === undefined) {
-                this.pendingOperation = operationTitle;
-            } else {
-                if (this.history.length < 2) {
-                    this.pendingOperation = operationTitle;
-                } else {
-                    let result = this.operation.execute(
-                        this.pendingOperation,
-                        this.history[0],
-                        this.history[1]
-                    );
-                    this.history = [result.toString().replace(".", ",")];
-                    this.display.show(result.toString().replace(".", ","));
-                    this.operationResult = result;
+        if (operationTitle === undefined) {
+            throw new Error("Action does not exist");
+        }
 
-                    if (operationTitle !== "result") {
-                        this.pendingOperation = operationTitle;
-                    } else {
-                        this.history = [];
-                    }
-                }
-            }
-            this.isNewValue = true;
+        this.isNewValue = true;
+        if (this.pendingOperation === undefined || this.history.length < 2) {
+            this.pendingOperation = operationTitle;
+
+            return;
+        }
+
+        let result;
+        try {
+            result = this.operation.execute(
+                this.pendingOperation,
+                this.history[0],
+                this.history[1]
+            );
+        } catch {
+            this.display.show("Error");
+            this.clearData();
+
+            return;
+        }
+
+        this.operationResult = result;
+
+        const resultAsString = result.toString().replace(".", ",");
+        this.history = [resultAsString];
+        this.display.show(resultAsString);
+
+        if (operationTitle !== operationsMap["RES"]) {
+            this.pendingOperation = operationTitle;
         } else {
-            throw "Operation does not exist";
+            this.pendingOperation = undefined;
         }
     }
 
     processAction(action) {
-        const actionTitle = this.actionsMap[action];
+        const actionTitle = actionsMap[action];
 
-        if (actionTitle !== undefined) {
-            if (actionTitle === "allClear") {
-                this.pendingOperation = undefined;
-                this.history = [];
-                this.display.reset();
-            } else if (actionTitle === "decimalPoint") {
-                if (
-                    this.history.length === 0 ||
-                    this.history[this.history.length - 1] === "0"
-                ) {
-                    this.history.push("0,");
-                } else {
-                    if (
-                        this.history[this.history.length - 1].indexOf(",") ===
-                        -1
-                    ) {
-                        this.history[this.history.length - 1] += ",";
-                    }
-                }
-                this.display.show(this.history[this.history.length - 1], true);
-                this.isNewValue = false;
-                return;
-            } else {
-                let result = this.action.execute(
-                    actionTitle,
-                    this.history[this.history.length - 1]
-                );
-                this.display.show(result.toString().replace(".", ","));
-
-                if (
-                    result !== 0 &&
-                    (actionTitle === "signChange" || actionTitle === "percent")
-                ) {
-                    this.history[this.history.length - 1] = result
-                        .toString()
-                        .replace(".", ",");
-                } else {
-                    this.history = [];
-                }
-            }
-            this.isNewValue = true;
-        } else {
-            console.log("Action does not exist");
+        if (actionTitle === undefined) {
+            throw new Error("Action does not exist");
         }
+
+        if (actionTitle === actionsMap["AC"]) {
+            this.clearData();
+            this.display.reset();
+        }
+
+        const historyLength = this.history.length;
+        if (actionTitle === actionsMap["DEC"]) {
+            if (historyLength === 0 || this.isNewValue) {
+                this.history.push("0,");
+                this.isNewValue = false;
+            }
+
+            if (
+                historyLength !== 0 &&
+                this.history[historyLength - 1].indexOf(",") === -1
+            ) {
+                this.history[historyLength - 1] += ",";
+            }
+
+            this.display.show(this.history[this.history.length - 1], true);
+
+            return;
+        }
+
+        if (
+            actionTitle !== actionsMap["AC"] &&
+            actionTitle !== actionsMap["DEC"]
+        ) {
+            let result;
+            try {
+                result = this.action.execute(
+                    actionTitle,
+                    this.history[historyLength - 1]
+                );
+            } catch (error) {
+                this.display.show("Error");
+                this.clearData();
+
+                return;
+            }
+
+            this.operationResult = result;
+            this.display.show(result.toString().replace(".", ","));
+
+            if(isFinite(result)) {
+                this.history[historyLength - 1] = result
+                    .toString()
+                    .replace(".", ",");
+            }else {
+                this.clearData();
+            }
+        }
+
+        this.isNewValue = true;
     }
 
     handleMemoryOperation(memoryVal) {
-        if (memoryVal === "m+" || memoryVal === "m-") {
+        if (
+            memoryVal === memoryOpsMap["M_ADD"] ||
+            memoryVal === memoryOpsMap["M_SUB"]
+        ) {
             this.display.activateMemoryIndicator();
-            let valueToOperate;
-            if (this.operationResult !== 0) {
-                valueToOperate = this.operationResult;
-            } else {
-                valueToOperate = this.history[this.history.length - 1];
-            }
 
-            if (memoryVal === "m+") {
-                this.memento.addToState(valueToOperate);
-            } else {
-                this.memento.subFromState(valueToOperate);
-            }
-        } else {
-            if (memoryVal === "mc") {
-                this.display.deactivateMemoryIndicator();
-                this.memento.clearState();
-            } else {
-                this.display.show(
-                    this.memento.getState().toString().replace(".", ",")
-                );
-            }
+            const valueToOperate =
+                this.operationResult !== 0
+                    ? this.operationResult
+                    : this.history[this.history.length - 1];
+
+            memoryVal === memoryOpsMap["M_ADD"]
+                ? this.memento.addToState(valueToOperate)
+                : this.memento.subFromState(valueToOperate);
+        }
+
+        if (memoryVal === memoryOpsMap["M_CLEAR"]) {
+            this.display.deactivateMemoryIndicator();
+            this.memento.clearState();
+        }
+
+        if (memoryVal === memoryOpsMap["M_RECALL"]) {
+            this.display.show(
+                this.memento.getState().toString().replace(".", ",")
+            );
         }
     }
 }

@@ -6,12 +6,18 @@ export default class Display {
     }
 
     show(value, isTrailingZeroesOK = false) {
-        if ((value !== "" && value.endsWith(",")) || isTrailingZeroesOK) {
+        if(value === "Error") {
+            this.domNode.textContent = value;
+
+            return
+        }
+
+        if (value.endsWith(",") || isTrailingZeroesOK) {
             this.domNode.textContent = value;
         } else {
-            let valFixedDots = value.replace(",", ".");
-            let valAsNum = parseFloat(valFixedDots);
-            let withoutTrailingZeroes = 1 * valAsNum.toFixed(10);
+            const valFixedDots = value.replace(",", ".");
+            const valAsNum = parseFloat(valFixedDots);
+            const withoutTrailingZeroes = 1 * valAsNum.toFixed(10);
             this.domNode.textContent = withoutTrailingZeroes
                 .toString()
                 .replace(".", ",");

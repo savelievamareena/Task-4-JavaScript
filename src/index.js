@@ -3,19 +3,19 @@ import Calculator from "./classes/Calculator";
 
 document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.querySelector("#toggle");
-    let rootElement = document.body;
+    const rootElement = document.body;
 
     toggle.addEventListener("click", function () {
         rootElement.classList.toggle("light-theme");
     });
 
     //main functionality
-    let calculator = new Calculator();
+    const calculator = new Calculator();
 
-    const numbers = document.querySelectorAll(".calc_body .number");
-    const operators = document.querySelectorAll(".calc_body .operator");
-    const actions = document.querySelectorAll(".calc_body .action");
-    const memoryKeys = document.querySelectorAll(".calc_body .memory");
+    const numbers = document.querySelectorAll(".calc_row button.number");
+    const operators = document.querySelectorAll(".calc_row button.operator");
+    const actions = document.querySelectorAll(".calc_row button.action");
+    const memoryKeys = document.querySelectorAll(".calc_row button.memory");
 
     numbers.forEach((num) => {
         num.addEventListener("click", function () {
