@@ -152,6 +152,7 @@ body {
 
 .calc_body .button:disabled {
     background-color: var(--header-body-bg);
+    cursor: default;
 }
 
 .calc_row .dark {

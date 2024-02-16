@@ -1,8 +1,8 @@
-const memoryOpsMap = {
+const MEMORY_OPS_MAP = {
     M_ADD: "addToMemory",
     M_SUB: "subFromMemory",
     M_CLEAR: "memClear",
-    M_RECALL: "memRecall"
+    M_RECALL: "memRecall",
 };
 
-export default memoryOpsMap;
+export default MEMORY_OPS_MAP;

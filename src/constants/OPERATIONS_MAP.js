@@ -1,11 +1,11 @@
-const operationsMap = {
+const OPERATIONS_MAP = {
     ADD: "add",
     SUB: "subtract",
     MULT: "multiply",
     DIV: "divide",
     RES: "result",
     ROOTY: "rootY",
-    EXPY: "exponentiationY"
+    EXPY: "exponentiationY",
 };
 
-export default operationsMap;
+export default OPERATIONS_MAP;

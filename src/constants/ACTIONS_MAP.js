@@ -1,4 +1,4 @@
-const actionsMap = {
+const ACTIONS_MAP = {
     AC: "allClear",
     CHG_SIGN: "signChange",
     PCT: "percent",
@@ -9,7 +9,7 @@ const actionsMap = {
     CUBE: "exponentiation3",
     POW10: "tenPower",
     RECIP: "oneDivided",
-    DEC: "decimalPoint"
+    DEC: "decimalPoint",
 };
 
-export default actionsMap;
+export default ACTIONS_MAP;

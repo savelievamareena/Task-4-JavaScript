@@ -26,7 +26,7 @@ export default class OperationTwoOperands extends Command {
             throw new Error("Incorrect operation");
         }
 
-        return Math.pow(a, 1 / b);
+        return a ** (1 / b);
     }
 
     exponentiationY(a, b) {
@@ -38,6 +38,7 @@ export default class OperationTwoOperands extends Command {
             if (!arg) {
                 throw new Error("Incorrect operation");
             }
+
             return parseFloat(arg.replace(",", "."));
         });
 

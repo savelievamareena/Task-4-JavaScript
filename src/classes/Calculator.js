@@ -3,15 +3,15 @@ import OperationTwoOperands from "./OperationTwoOperands";
 import Display from "./Display";
 import Memento from "./Memento";
 
-import operationsMap from "../../constants/operationsMap";
-import actionsMap from "../../constants/actionsMap";
-import memoryOpsMap from "../../constants/memoryOpsMap";
+import OPERATIONS_MAP from "../constants/OPERATIONS_MAP";
+import ACTIONS_MAP from "../constants/ACTIONS_MAP";
+import MEMORY_OPS_MAP from "../constants/MEMORY_OPS_MAP";
 
 export default class Calculator {
     constructor() {
         this.history = [];
         this.isNewValue = true;
-        this.pendingOperation = undefined;
+        this.pendingOperation = null;
         this.operationResult = 0;
 
         this.memento = new Memento();
@@ -21,13 +21,13 @@ export default class Calculator {
     }
 
     clearData() {
-        this.pendingOperation = undefined;
+        this.pendingOperation = null;
         this.history = [];
     }
 
     processNumberClick(number) {
         if (this.isNewValue) {
-            this.pendingOperation === undefined //check if we clicked = before
+            !this.pendingOperation //check if we clicked = before
                 ? (this.history = [number])
                 : this.history.push(number);
             this.operationResult = 0;
@@ -44,14 +44,14 @@ export default class Calculator {
     }
 
     executeOperation(operator) {
-        const operationTitle = operationsMap[operator];
+        const operationTitle = OPERATIONS_MAP[operator];
 
-        if (operationTitle === undefined) {
+        if (!operationTitle) {
             throw new Error("Action does not exist");
         }
 
         this.isNewValue = true;
-        if (this.pendingOperation === undefined || this.history.length < 2) {
+        if (!this.pendingOperation || this.history.length < 2) {
             this.pendingOperation = operationTitle;
 
             return;
@@ -77,27 +77,27 @@ export default class Calculator {
         this.history = [resultAsString];
         this.display.show(resultAsString);
 
-        if (operationTitle !== operationsMap["RES"]) {
+        if (operationTitle !== OPERATIONS_MAP.RES) {
             this.pendingOperation = operationTitle;
         } else {
-            this.pendingOperation = undefined;
+            this.pendingOperation = null;
         }
     }
 
     processAction(action) {
-        const actionTitle = actionsMap[action];
+        const actionTitle = ACTIONS_MAP[action];
 
-        if (actionTitle === undefined) {
+        if (!actionTitle) {
             throw new Error("Action does not exist");
         }
 
-        if (actionTitle === actionsMap["AC"]) {
+        if (actionTitle === ACTIONS_MAP.AC) {
             this.clearData();
             this.display.reset();
         }
 
         const historyLength = this.history.length;
-        if (actionTitle === actionsMap["DEC"]) {
+        if (actionTitle === ACTIONS_MAP.DEC) {
             if (historyLength === 0 || this.isNewValue) {
                 this.history.push("0,");
                 this.isNewValue = false;
@@ -115,10 +115,7 @@ export default class Calculator {
             return;
         }
 
-        if (
-            actionTitle !== actionsMap["AC"] &&
-            actionTitle !== actionsMap["DEC"]
-        ) {
+        if (actionTitle !== ACTIONS_MAP.AC && actionTitle !== ACTIONS_MAP.DEC) {
             let result;
             try {
                 result = this.action.execute(
@@ -149,8 +146,8 @@ export default class Calculator {
 
     handleMemoryOperation(memoryVal) {
         if (
-            memoryVal === memoryOpsMap["M_ADD"] ||
-            memoryVal === memoryOpsMap["M_SUB"]
+            memoryVal === MEMORY_OPS_MAP.M_ADD ||
+            memoryVal === MEMORY_OPS_MAP.M_SUB
         ) {
             this.display.activateMemoryIndicator();
 
@@ -159,17 +156,17 @@ export default class Calculator {
                     ? this.operationResult
                     : this.history[this.history.length - 1];
 
-            memoryVal === memoryOpsMap["M_ADD"]
+            memoryVal === MEMORY_OPS_MAP.M_ADD
                 ? this.memento.addToState(valueToOperate)
                 : this.memento.subFromState(valueToOperate);
         }
 
-        if (memoryVal === memoryOpsMap["M_CLEAR"]) {
+        if (memoryVal === MEMORY_OPS_MAP.M_CLEAR) {
             this.display.deactivateMemoryIndicator();
             this.memento.clearState();
         }
 
-        if (memoryVal === memoryOpsMap["M_RECALL"]) {
+        if (memoryVal === MEMORY_OPS_MAP.M_RECALL) {
             this.display.show(
                 this.memento.getState().toString().replace(".", ",")
             );

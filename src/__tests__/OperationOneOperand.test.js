@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "@jest/globals";
-import OperationOneOperand from "../src/classes/OperationOneOperand";
+import OperationOneOperand from "../classes/OperationOneOperand";
 
 describe("OperationOneOperand", () => {
     let action;
@@ -46,11 +46,14 @@ describe("OperationOneOperand", () => {
     test("calculates ten to the power of a number", () => {
         expect(action.tenPower(2)).toBe(100);
         expect(action.tenPower(3)).toBe(1000);
+        expect(action.tenPower(0)).toBe(1);
     });
 
     test("calculates reciprocal of a number", () => {
         expect(action.oneDivided(2)).toBe(0.5);
         expect(action.oneDivided(4)).toBe(0.25);
-        expect(action.oneDivided(0)).toBe("Error");
+        expect(() => {
+            action.oneDivided(0);
+        }).toThrow(new Error("Incorrect operation"));
     });
 });
